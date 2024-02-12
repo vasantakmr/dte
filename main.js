@@ -75,6 +75,8 @@ var dteData = {
     "2024-02-28": {"nifty": "1", "banknifty": "1", "finnifty": "6"}
   };
 
+window.onload = displayDTENifty()
+
 document.getElementById("nifty").addEventListener("click", displayDTENifty);
 
 function displayDTENifty() {
