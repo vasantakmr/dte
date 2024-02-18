@@ -11,6 +11,8 @@ const menuItems = menu.querySelectorAll(".menu__item");
 const menuBorder = menu.querySelector(".menu__border");
 let activeItem = menu.querySelector(".active");
 
+const todaysDate = new Date();
+
 function clickItem(item, index) {
 
     menu.style.removeProperty("--timeOut");
@@ -65,6 +67,7 @@ var dteData = {
     "2024-02-14": {"nifty": "1", "banknifty": "0", "finnifty": "6"},
     "2024-02-15": {"nifty": "0", "banknifty": "6", "finnifty": "5"},
     "2024-02-16": {"nifty": "6", "banknifty": "5", "finnifty": "4"},
+    "2024-02-18": {"nifty": "6", "banknifty": "5", "finnifty": "4"},
     "2024-02-19": {"nifty": "3", "banknifty": "2", "finnifty": "1"},
     "2024-02-20": {"nifty": "2", "banknifty": "1", "finnifty": "0"},
     "2024-02-21": {"nifty": "1", "banknifty": "0", "finnifty": "6"},
@@ -75,17 +78,25 @@ var dteData = {
     "2024-02-28": {"nifty": "1", "banknifty": "1", "finnifty": "6"}
   };
 
-window.onload = displayDTENifty()
+window.onload = OnWebsiteLoad()
+
+function OnWebsiteLoad() {
+    displayDTENifty();
+    document.getElementById("dateSelector").value = todaysDate.toISOString().substring(0, 10)
+    console.log(todaysDate)
+    console.log(todaysDate.toISOString())
+    console.log(todaysDate.toISOString().substring(0, 10))
+    onDateChanged()
+}
 
 document.getElementById("nifty").addEventListener("click", displayDTENifty);
 
 function displayDTENifty() {
-    const todaysDate = new Date();
 
-    console.log(todaysDate.toISOString().substring(0, 10));
+    //console.log(todaysDate.toISOString().substring(0, 10));
 
     for (const [key, value] of Object.entries(dteData)) {
-        console.log(`${key}: ${value}`);
+        //console.log(`${key}: ${value}`);
         if(key == todaysDate.toISOString().substring(0, 10)){
             document.getElementById("dte").innerText = value.nifty;
         }
@@ -96,9 +107,8 @@ function displayDTENifty() {
 document.getElementById("banknifty").addEventListener("click", displayDTEBankNifty);
 
 function displayDTEBankNifty() {
-    const todaysDate = new Date();
 
-    console.log(todaysDate.toISOString().substring(0, 10));
+    //console.log(todaysDate.toISOString().substring(0, 10));
 
     for (const [key, value] of Object.entries(dteData)) {
         console.log(`${key}: ${value}`);
@@ -112,15 +122,35 @@ function displayDTEBankNifty() {
 document.getElementById("finnifty").addEventListener("click", displayDTEFinNifty);
 
 function displayDTEFinNifty() {
-    const todaysDate = new Date();
-
-    console.log(todaysDate.toISOString().substring(0, 10));
+    //console.log(todaysDate.toISOString().substring(0, 10));
 
     for (const [key, value] of Object.entries(dteData)) {
-        console.log(`${key}: ${value}`);
+        //console.log(`${key}: ${value}`);
         if(key == todaysDate.toISOString().substring(0, 10)){
             document.getElementById("dte").innerText = value.finnifty;
         }
     }
-
 }
+
+document.getElementById("dateSelector").addEventListener("change", onDateChanged);
+
+function onDateChanged() {
+    console.log("date changed " + document.getElementById("dateSelector").value);
+    
+    for(const [key, value] of Object.entries(dteData)) {
+        if( key ==  document.getElementById("dateSelector").value) {
+            document.getElementById("dte").textContent = value.nifty
+
+            document.getElementById("niftyDTE").textContent = value.nifty
+            document.getElementById("bankNiftyDTE").textContent = value.banknifty
+            document.getElementById("finNiftyDTE").textContent = value.finnifty
+        }
+    }
+}
+
+// 1. date pick cheskovali
+// 2. aa date vunda leda?
+//    a. look through all the properties. 
+//    b. find the required property.
+//    c. get the value from the property.
+// 3. update the UI.
